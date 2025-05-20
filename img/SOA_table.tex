@@ -1,0 +1,43 @@
+\documentclass[border=10pt]{standalone}
+\usepackage{amsmath}
+\usepackage{threeparttable}
+\usepackage{adjustbox}
+\begin{document}
+\cite{6015500} \cite{CCIA_GMID} \cite{chand-7417924} \cite{herman2024versatility}
+
+\begin{table}
+\begin{adjustbox}{width=\linewidth,center}
+\begin{threeparttable}
+\begin{tabular}{|c|c|c|c|c|}
+%\begin{tabular}{|*{8}{c|}}
+\hline
+Metrics    & This work & \cite{Jiang-8588386}  &  \cite{Maruyama-7516659}  &  \cite{Shen-8008461}   \\ \hline
+CMOS technology {[}nm{]}       & 65   & 180    & 180 & 180     \\ \hline
+Architecture & CCIA & CCIA+CTDSM & 3-Opam & Inverter-stacking \\ \hline
+Active Area  {[}$mm^2${]}    & 0.18\tnote{a} & 0.73  & 0.22  & 0.02      \\ \hline
+Supply Voltage {[}V{]} & 1.2 & 1.8 & 1.55 & 1      \\ \hline
+Current {[}mA{]} & 1.48\tnote{b}  & 1.2    & 1.3      & 0.00025   \\ \hline
+Input Noise Density {[}$nV/\sqrt{Hz}${]}  & 2.07 & 3.7  & 8.2  & 55       \\ \hline
+Input Offset {[}$\mu V${]}   & 1.25  & 7 & N.R. & N.R. \\ \hline
+CMRR  {[}dB{]}     & 82 & 134   & N.R.  & 82 \\ \hline
+NEF/PEF\tnote{c} & 3.12/11.68  & 5/44      & 11.4/201  & 1.07/1.14    \\ \hline
+\end{tabular}
+%}
+% \par\medskip
+    \footnoterule
+    \begin{tablenotes}
+    {\fontsize{6pt}{7pt}\selectfont
+     \item [a] CCIA and PGA area included 
+      \item [b] CCIA current only
+    \item [c] PEF = VDD*$NEF^2$ 
+    \item N.R.: Not reported}
+\end{tablenotes}
+\end{threeparttable}
+\end{adjustbox}
+\end{table}
+
+% bibliography
+\bibliography{bib/references.bib}{}
+\bibliographystyle{IEEEtran}
+
+\end{document}

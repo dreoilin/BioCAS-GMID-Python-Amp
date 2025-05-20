@@ -1,0 +1,42 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+
+\begin{document}
+%\definecolor{ECG}{HTML}{ef6da1} 
+\definecolor{EEG}{HTML}{60c5fd}
+%\definecolor{LFP}{HTML}{f2d1fe}
+%\definecolor{AP}{HTML}{5dc6a1}
+%\definecolor{EMG}{HTML}{986eec}
+\begin{tikzpicture}
+    \begin{axis}[
+        %grid=both, % Disable the grid
+        axis line style = ultra thick,
+        every tick/.style={black,thick},
+        grid=none,
+        width=6cm, % Width of the plot
+        height=4cm,
+        axis lines=middle, % Draw x and y axis in the middle
+        xmin=0, xmax=6, % Set x axis limits
+        ymin=0, ymax=4, % Set y axis limits
+        xtick={1,2.2}, % Set positions of x ticks
+        ytick={0}, % Set positions of y ticks
+        xticklabels={$f_{sig}$,$f_{c}$}, % Set labels of x ticks
+        yticklabels={}, % Set labels of y ticks
+        x label style={at={(axis description cs:0.9,0)},anchor=north,font=\footnotesize},
+        y label style={at={(axis description cs:0,.6)},rotate=90,anchor=south,font=\footnotesize},
+        xlabel={f [Hz]},
+        ylabel={$S_{x}(f)$ [V$^2$/Hz]}
+    ]
+    \fill[fill=EEG, opacity=0.6] (axis cs:0.04,0.05) rectangle (axis cs:1,3);
+    
+    \draw[ultra thick] (axis cs:0,2.8) -- (axis cs:2.2,1) -- (axis cs:5.5,1);
+    \draw[->, thick] (axis cs:0+0.8,2.8+0.8) -- (axis cs:0+0.1,2.8+0.1) node [pos=0.1,right,font=\footnotesize] {$S_{FLK}(f)\vert_{f=1 Hz}$};
+    
+    %\path [green,line,bend left] (G) edge (R);
+
+    \draw[thick,dashed] (axis cs:0,1) -- (axis cs:5.5,1);
+    \node[text] at (axis cs:4,0.6) {$S_{TH}(f)$};
+    %\node[draw] at (axis cs:1,0.3) {Signal \\ Band};
+    \end{axis}
+\end{tikzpicture}
+\end{document}

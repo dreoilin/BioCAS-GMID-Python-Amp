@@ -1,0 +1,43 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{calc}
+\begin{document}
+\ctikzset{% styles here!
+    %european,
+    %american inductors,
+    %full diodes,
+    %bipoles/cuteswitch/thickness=0.3,
+    %diodes/scale=1,
+    resistors/scale=0.6,
+    capacitors/scale=0.4,
+    %capacitors/thickness=4,
+    tripoles/mos style/arrows,
+    tripoles/pmos style/nocircle
+    }
+
+\begin{circuitikz}[circuitikz/straight=true, american currents]
+
+    
+    \draw (0,3) node[pmos, font =\Large](M1){M1} (2.5,3) node[pmos,xscale=-1, font =\Large](M2){\ctikzflipx{M2}} (0,0) node[nmos, font =\Large](M3){M3} (2.5,0) node[nmos,xscale=-1, font =\Large](M4){\ctikzflipx{M4}} (1.25,5.5) node[pmos, font =\Large](M6){M6} (1.25,-2.5) node[nmos, font =\Large](M5){M5};
+    \draw (M1.G) to [short] ++(-0.5,0) coordinate(M1R) (M1R) to [short,-] ++(-1,0) node[left, font =\Large]{} to [short] ++(0,-1.5) coordinate(VB1) to [short,-o] ++(-1,0) node[left,font=\Large]{$V_{in}^+$} (VB1) to [short] ++(0,-1.5);
+    \draw (M2.G) to [short] ++(1.5,0) coordinate(M2R) (M2R) to [short] ++(0,-1.5) coordinate(VB2) to [short,-o] ++(1,0) node[right,font=\Large]{$V_{in}^-$} (VB2) to [short] ++(0,-1.5);
+    \draw (M3.G) to [short] ++(-0.5,0) coordinate(M3R) (M3R) to [short,-] ++(-1,0) node[left, font =\Large]{};
+    \draw (M4.G) to [short] ++(0.5,0) coordinate(M4R) (M4R) to [short,-] ++(1,0) node[right, font =\Large]{};
+
+    \draw (M6.G) to [short,-o] ++(-0.1,0) node[left, font =\Large]{$V_{pb}$} (M6.S) node[rground,yscale=-1, font =\Large]{\ctikzflipy{VDD}};
+    \draw (M5.G) to [short,-o] ++(-0.1,0) node[left, font =\Large]{$V_{cmfb}$} (M5.S) node[ground]{};
+
+    \draw (M3.D) to [C,l_=$C_{CM1}$,*-*] ++(1.25,0) coordinate(cmid) (M4.D) to [C,l=$C_{CM2}$,*-] ++(-1.25,0);
+    \draw (M1.D) to [R,l=$R_{CM1}$,*-*] ++(1.25,0) coordinate(rmid) (M2.D) to [R,l_=$R_{CM2}$,*-] ++(-1.25,0);
+
+    \draw (M1.D) -- (M3.D) (M2.D) -- (M4.D) 
+    ($(M1.S)!0.5!(M3.S)$) to [short,-o] ++(-1,0) node[left, font =\Large] {$V_{o1}$}
+    ($(M2.S)!0.5!(M4.S)$) to [short,-o] ++(1,0) node[right, font =\Large] {$V_{o2}$}
+    (cmid) -- (rmid) ($(cmid)!0.5!(rmid)$) to [short,*-o] ++(0.25,0) node[right, font =\large]{$V_{CM1}$};
+
+    \draw (M1.S) -- (M2.S) ($(M1.S)!0.5!(M2.S)$) to [short,*-] (M6.D);
+    \draw (M3.S) -- (M4.S) ($(M3.S)!0.5!(M4.S)$) to [short,*-] (M5.D);
+\end{circuitikz}
+
+
+\end{document}

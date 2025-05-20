@@ -1,0 +1,59 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{calc}
+\begin{document}
+\ctikzset{% styles here!
+    %european,
+    %american inductors,
+    %full diodes,
+    %bipoles/cuteswitch/thickness=0.3,
+    %diodes/scale=1,
+    resistors/scale=0.6,
+    capacitors/scale=0.4,
+    %capacitors/thickness=4,
+    tripoles/mos style/arrows,
+    tripoles/pmos style/nocircle
+    }
+
+\begin{circuitikz}[circuitikz/straight=true, american currents]
+    \draw
+    [
+        teal,
+        dashed,
+        fill=green!5
+    ] (3.6,4.6) rectangle (5,3.4);
+
+    \draw
+    [
+        teal,
+        dashed,
+        fill=green!5
+    ] (5.8,5.6) rectangle (7.4,3.4);
+
+    \draw (6.6,5) node[pmos,xscale=-1,scale=0.6, font =\Large](MP1pd){\ctikzflipx{$MP1_{pd}$}};
+    \draw (6.6,4) node[pmos,xscale=-1,yscale=-1,scale=0.6, font =\Large](MP2pd){\ctikzflipy{\ctikzflipx{$MP2_{pd}$}}};
+    \draw (MP1pd.D) -- (MP2pd.D) (MP1pd.G) -- (MP2pd.G) ($(MP1pd.G)!0.5!(MP2pd.G)$) to [short,*-*] ($(MP1pd.D)!0.5!(MP2pd.D)$);
+    
+    \draw (0,3) node[pmos, font =\Large](M1){M1} (2.5,3) node[pmos,xscale=-1, font =\Large](M2){\ctikzflipx{M2}} (0,0) node[nmos, font =\Large](M3){M3} (2.5,0) node[nmos,xscale=-1, font =\Large](M4){\ctikzflipx{M4}} (1.25,5.5) node[pmos, font =\Large](M6){M6} (1.25,-2.5) node[nmos, font =\Large](M5){M5};
+    \draw (M1.G) to [short] ++(-0.5,0) coordinate(M1R) to [R, l=$R_{pd}$,*-o, font =\Large] ++(0,2) node[above, font =\Large]{$V_{b1}$} (M1R) to [short,-o] ++(-1,0) node[left, font =\Large]{$V_{P1}$};
+    \draw (M2.G) to [short] ++(0.5,0) coordinate(M2R) to [R, l_=$R_{pd}$,*-o, font =\Large] ++(0,2) node[above, font =\Large]{$V_{b1}$} (M2R) to [short,-o] ++(1,0) node[right, font =\Large]{$V_{P2}$};
+    \draw (M3.G) to [short] ++(-0.5,0) coordinate(M3R) to [R, l_=$R_{pd}$,*-o, font =\Large] ++(0,-2) node[below, font =\Large]{$V_{b2}$} (M3R) to [short,-o] ++(-1,0) node[left, font =\Large]{$V_{N1}$};
+    \draw (M4.G) to [short] ++(0.5,0) coordinate(M4R) to [R, l=$R_{pd}$,*-o, font =\Large] ++(0,-2) node[below, font =\Large]{$V_{b2}$} (M4R) to [short,-o] ++(1,0) node[right, font =\Large]{$V_{N2}$};
+
+    \draw (M6.G) to [short,-o] ++(-0.1,0) node[left, font =\Large]{$V_{pb}$} (M6.S) node[rground,yscale=-1, font =\Large]{\ctikzflipy{VDD}};
+    \draw (M5.G) to [short,-o] ++(-0.1,0) node[left, font =\Large]{$V_{cmfb}$} (M5.S) node[ground]{};
+
+    \draw (M3.D) to [C,l_=$C_{CM1}$,*-*] ++(1.25,0) coordinate(cmid) (M4.D) to [C,l=$C_{CM2}$,*-] ++(-1.25,0);
+    \draw (M1.D) to [R,l=$R_{CM1}$,*-*] ++(1.25,0) coordinate(rmid) (M2.D) to [R,l_=$R_{CM2}$,*-] ++(-1.25,0);
+
+    \draw (M1.D) -- (M3.D) (M2.D) -- (M4.D) 
+    ($(M1.S)!0.5!(M3.S)$) to [short,-o] ++(-1,0) node[left, font =\Large] {$V_{o1}$}
+    ($(M2.S)!0.5!(M4.S)$) to [short,-o] ++(1,0) node[right, font =\Large] {$V_{o2}$}
+    (cmid) -- (rmid) ($(cmid)!0.5!(rmid)$) to [short,*-o] ++(0.25,0) node[right, font =\large]{$V_{CM1}$};
+
+    \draw (M1.S) -- (M2.S) ($(M1.S)!0.5!(M2.S)$) to [short,*-] (M6.D);
+    \draw (M3.S) -- (M4.S) ($(M3.S)!0.5!(M4.S)$) to [short,*-] (M5.D);
+\end{circuitikz}
+
+
+\end{document}

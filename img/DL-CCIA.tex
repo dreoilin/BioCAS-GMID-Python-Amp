@@ -1,0 +1,98 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{calc}
+\begin{document}
+\ctikzset{% styles here!
+    %european,
+    %american inductors,
+    %full diodes,
+    %bipoles/cuteswitch/thickness=0.3,
+    %diodes/scale=1,
+    %resistors/scale=0.7,
+    capacitors/scale=0.5
+    %capacitors/thickness=4,
+    %tripoles/mos style/arrows,
+    %tripoles/pmos style/nocircle
+    }
+% note that the switch "straight" (for straight European voltages) is
+% experimental
+\ctikzset{amplifiers/scale=2,
+          amp symbol font={\small}
+        }
+% \begin{circuitikz}[circuitikz/straight=true,american currents, every node/.style={font=\huge}, every label/.append style={font=\huge}]
+%   \draw (0, 0) node[fd op amp,yscale=-1,fill=cyan!30] (opamp) {\ctikzflipy{$G_{m}$}}
+%   (opamp.out -) to [short,*-o] ++(1,0) node[right] {$V_{out-}$}
+%   (opamp.out +) to [short,*-o] ++(1,0) node[right] {$V_{out+}$}
+%   (opamp.out -) to [short,-*] ++(0,1.5) coordinate(vouttopmid)
+%   (opamp.out +) to [short,-*] ++(0,-1.5) coordinate(voutbottommid)
+%   (vouttopmid) to [C,l_=$C_{fb}$] ++(-4,0) coordinate(vouttopend)
+%   (vouttopend) to [short,-*] (vouttopend |- opamp.+) coordinate(vbottombottomin) node[below]{\footnotesize{$V_{P1}$}}
+%   (voutbottommid) to [C,l_=$C_{fb}$] ++(-4,0) coordinate(voutbottomend)
+%   (voutbottomend) to [short,-*] ( voutbottomend |- opamp.-) coordinate(vtoptopin) node[above]{\footnotesize{$V_{N2}$}}
+%   (vouttopmid) to [short] ++(0,0.75)
+%   to [C,l_=$C_{fb}$] ++(-5,0)
+%   to [short,-*] ++(0,-2.8) coordinate(vtopinmid) node[above right]{\footnotesize{$V_{N1}$}}
+%   to [short] ++(1.68,0) node[right]{$-$}
+%   (voutbottommid) to [short] ++(0,-0.75)
+%   to [C,l_=$C_{fb}$] ++(-5,0)
+%   to [short,-*] ++(0,2.8) coordinate(vbottominmid) node[below right, font =\Large]{{$V_{P2}$}}
+%   to [short] ++(1.68,0) node[right]{$+$}
+%   (vtopinmid) to [C,l_={\footnotesize $C_{in}$}] ++(-3,0) to [short,-*] ++(0,0.25) coordinate(Vinplus) to [short,-o] ++(-0.5,0) node[left]{$V_{in+}$} (Vinplus) -- ++(0,0.3)
+%   (vbottominmid) to [C,l_={\footnotesize $C_{in}$}] ++(-3,0)
+%   (vtoptopin) to [C,l_={\footnotesize $C_{in}$}] ++(-4,0) to [short,-*] ++(0,0.3) coordinate(Vinminus) to [short,-o] ++(-0.5,0) node[left]{$V_{in-}$} ++(0,0.25) (Vinminus) -- ++(0,0.27)
+%   (vbottombottomin) to [C,l_={\footnotesize $C_{in}$}] ++ (-4,0)
+%   ;
+%   %\draw (vouttopend) |- ( opamp.+ );
+%   %\draw (opamp.+) node[left] {$v_{in}$};
+%   %(voutbottommid) to [C,label_=$C_{fb}$] ++(-5,0);
+  
+%   %(opamp.-) to [sV,l_=$\overline{v_{in,amp}^2}$] ++(-2,0) coordinate(posFB);
+%   %to [C,l_=$C_{in}$,-o] ++(-2.5,0) node[above] {$V_{in}$}
+%   %(opamp.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   %(posFB) to [R,l_=$R_{pd,1}$,-o] ++(0,-2) node[below] {$V_{b,1}$};
+%   %\draw (5,-0.5) node[op amp] (opamp2) {$g_{m,2}$};
+%   %\draw (opamp.out) to [C,l=$C_b$] ++(1.5,0) coordinate(posvin2) to [R,l_=$R_{pd,2}$,*-o] ++(0,-2) node[below] {$V_{b,2}$};
+%   %\draw (posvin2) -- (opamp2.-) 
+%   %(opamp2.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   %(opamp2.out) to [short] ++(0,2.5) to [C,l_=$C_{fb}$] ++(-8,0) coordinate(cfb-) to [short] (cfb- -| posFB) to [short,-*](posFB);
+%   %\draw (opamp2.out) to [short, *-o] ++(1,0) node[above] {$V_{out}$};
+% \end{circuitikz}
+\begin{circuitikz}[circuitikz/straight=true,american currents]
+  \draw (0, 0) node[fd op amp,yscale=-1,fill=cyan!30, font =\huge] (opamp) {\ctikzflipy{$G_{m}$}}
+  (opamp.out -) to [short,*-o] ++(1,0) node[right, font =\Large] {$V_{out-}$}
+  (opamp.out +) to [short,*-o] ++(1,0) node[right, font =\Large] {$V_{out+}$}
+  (opamp.out -) to [short,-*] ++(0,1.5) coordinate(vouttopmid)
+  (opamp.out +) to [short,-*] ++(0,-1.5) coordinate(voutbottommid)
+  (vouttopmid) to [C,l_=$C_{fb}$] ++(-4,0) coordinate(vouttopend)
+  (vouttopend) to [short,-*] (vouttopend |- opamp.+) coordinate(vbottombottomin) node[below, font =\large]{{$V_{P1}$}}
+  (voutbottommid) to [C,l_=$C_{fb}$,font =\Large] ++(-4,0) coordinate(voutbottomend)
+  (voutbottomend) to [short,-*] ( voutbottomend |- opamp.-) coordinate(vtoptopin) node[above, font =\large]{{$V_{N2}$}}
+  (vouttopmid) to [short] ++(0,0.75)
+  to [C,l_=$C_{fb}$, font =\Large] ++(-5,0)
+  to [short,-*] ++(0,-2.8) coordinate(vtopinmid) node[above right, font =\large]{{$V_{N1}$}}
+  to [short] ++(1.68,0) node[right, font =\Large]{$-$}
+  (voutbottommid) to [short] ++(0,-0.75)
+  to [C,l_=$C_{fb}$, font =\Large] ++(-5,0)
+  to [short,-*] ++(0,2.8) coordinate(vbottominmid) node[below right, font =\large]{{$V_{P2}$}}
+  to [short] ++(1.68,0) node[right, font =\Large]{$+$}
+  (vtopinmid) to [C,l_={$C_{in}$}, font =\Large] ++(-3,0) to [short,-*] ++(0,0.25) coordinate(Vinplus) to [short,-o] ++(-0.5,0) node[left, font =\Large]{$V_{in+}$} (Vinplus) -- ++(0,0.3)
+  (vbottominmid) to [C,l_={$C_{in}$}, font =\Large] ++(-3,0)
+  (vtoptopin) to [C,l_={$C_{in}$}, font =\Large] ++(-4,0) to [short,-*] ++(0,0.3) coordinate(Vinminus) to [short,-o] ++(-0.5,0) node[left, font =\Large]{$V_{in-}$} ++(0,0.25) (Vinminus) -- ++(0,0.27)
+  (vbottombottomin) to [C,l_={$C_{in}$}, font =\Large] ++ (-4,0)
+  ;
+  %\draw (vouttopend) |- ( opamp.+ );
+  %\draw (opamp.+) node[left] {$v_{in}$};
+  %(voutbottommid) to [C,label_=$C_{fb}$] ++(-5,0);
+  
+  %(opamp.-) to [sV,l_=$\overline{v_{in,amp}^2}$] ++(-2,0) coordinate(posFB);
+  %to [C,l_=$C_{in}$,-o] ++(-2.5,0) node[above] {$V_{in}$}
+  %(opamp.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+  %(posFB) to [R,l_=$R_{pd,1}$,-o] ++(0,-2) node[below] {$V_{b,1}$};
+  %\draw (5,-0.5) node[op amp] (opamp2) {$g_{m,2}$};
+  %\draw (opamp.out) to [C,l=$C_b$] ++(1.5,0) coordinate(posvin2) to [R,l_=$R_{pd,2}$,*-o] ++(0,-2) node[below] {$V_{b,2}$};
+  %\draw (posvin2) -- (opamp2.-) 
+  %(opamp2.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+  %(opamp2.out) to [short] ++(0,2.5) to [C,l_=$C_{fb}$] ++(-8,0) coordinate(cfb-) to [short] (cfb- -| posFB) to [short,-*](posFB);
+  %\draw (opamp2.out) to [short, *-o] ++(1,0) node[above] {$V_{out}$};
+\end{circuitikz}
+\end{document}

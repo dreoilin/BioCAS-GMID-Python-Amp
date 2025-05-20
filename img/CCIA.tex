@@ -1,0 +1,61 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{calc}
+\begin{document}
+\ctikzset{% styles here!
+    %european,
+    %american inductors,
+    %full diodes,
+    %bipoles/cuteswitch/thickness=0.3,
+    %diodes/scale=1,
+    %resistors/scale=0.7,
+    %capacitors/scale=0.7,
+    %capacitors/thickness=4,
+    %tripoles/mos style/arrows,
+    %tripoles/pmos style/nocircle
+    }
+% note that the switch "straight" (for straight European voltages) is
+% experimental
+% \begin{circuitikz}[circuitikz/straight=true,american currents]
+%   \draw  (0, 0) node[op amp] (opamp) {$g_{m1}$}
+%   (opamp.-) to [sV,l_=$\overline{v_{in,amp}^2}$] ++(-2,0) coordinate(posFB) to [C,l_=$C_{in}$,-o] ++(-2.5,0) node[above] {$V_{in}$}
+%   (opamp.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   (posFB) to [R,l_=$R_{pd}$,-o] ++(0,-2) node[below] {$V_{b1}$};
+%   \draw (2.5,-0.5) node[op amp] (opamp2) {$g_{m2}$}
+%   %\draw (opamp.out) to [C,l=$C_b$] ++(1.5,0) coordinate(posvin2) to [R,l_=$R_{pd,2}$,*-o] ++(0,-2) node[below] {$V_{b,2}$};
+%   %\draw (posvin2) -- (opamp2.-) 
+%   (opamp.out) -- (opamp2.-)
+%   (opamp2.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   (opamp2.out) to [short] ++(0,2.5) to [C,l_=$C_{fb}$] ++(-6,0) coordinate(cfb-) to [short] (cfb- -| posFB) to [short,-*](posFB);
+%   \draw (opamp2.out) to [short, *-o] ++(1,0) node[above] {$V_{out}$};
+% \end{circuitikz}
+
+% \begin{circuitikz}[circuitikz/straight=true,american currents]
+%   \draw  (0, 0) node[op amp] (opamp) {$g_{m1}$}
+%   (opamp.-) to [sV,l_=$\overline{v_{in,amp}^2}$] ++(-2,0) coordinate(posFB) to [C,l_=$C_{in}$,-o] ++(-2.5,0) node[above] {$V_{in}$}
+%   (opamp.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   (posFB) to [R,l_=$R_{pd}$,-o] ++(0,-2) node[below] {$V_{b1}$};
+%   \draw (2.5,-0.5) node[op amp] (opamp2) {$g_{m2}$}
+%   %\draw (opamp.out) to [C,l=$C_b$] ++(1.5,0) coordinate(posvin2) to [R,l_=$R_{pd,2}$,*-o] ++(0,-2) node[below] {$V_{b,2}$};
+%   %\draw (posvin2) -- (opamp2.-) 
+%   (opamp.out) -- (opamp2.-)
+%   (opamp2.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+%   (opamp2.out) to [short] ++(0,2.5) to [C,l_=$C_{fb}$] ++(-6,0) coordinate(cfb-) to [short] (cfb- -| posFB) to [short,-*](posFB);
+%   \draw (opamp2.out) to [short, *-o] ++(1,0) node[above] {$V_{out}$};
+% \end{circuitikz}
+
+
+\begin{circuitikz}[circuitikz/straight=true, american currents, every node/.style={font=\huge}, every label/.append style={font=\huge}]
+  \draw  (0, 0) node[op amp] (opamp) {$g_{m1}$}
+  (opamp.-) to [sV, l_=$\overline{v_{therm}^2}$] ++(-2,0) coordinate(posFB) to [C, l_=$C_{in}$,-o] ++(-2.5,0) node[above] {$V_{in}$}
+  (opamp.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+  (posFB) to [R, l_=$R_{pd}$,-o] ++(0,-2) node[below] {$V_{b1}$};
+  \draw (2.5,-0.5) node[op amp] (opamp2) {$g_{m2}$}
+  (opamp.out) -- (opamp2.-)
+  (opamp2.+) to [short] ++(-0.25,0) to [short] ++(0,-0.25) node[sground] {}
+  (opamp2.out) to [short] ++(0,2.5) to [C, l_=$C_{fb}$] ++(-6,0) coordinate(cfb-) to [short] (cfb- -| posFB) to [short,-*](posFB);
+  \draw (opamp2.out) to [short, *-o] ++(1,0) node[above] {$V_{out}$};
+\end{circuitikz}
+% \end{document}
+
+\end{document}

@@ -1,0 +1,64 @@
+\documentclass[border=10pt]{standalone}
+\usepackage[siunitx, RPvoltages]{circuitikz}
+\usetikzlibrary{calc}
+\begin{document}
+\ctikzset{% styles here!
+    %european,
+    %american inductors,
+    %full diodes,
+    %bipoles/cuteswitch/thickness=0.3,
+    %diodes/scale=1,
+    %resistors/scale=0.7,
+    %capacitors/scale=0.7,
+    %capacitors/thickness=4,
+    %tripoles/mos style/arrows,
+    %tripoles/pmos style/nocircle
+    }
+% note that the switch "straight" (for straight European voltages) is
+% experimental
+\begin{circuitikz}[circuitikz/straight=true,american currents]
+    \draw (0,0) node[rectangle, draw, minimum width=0.5cm, minimum height=1.8cm] (modulator) {};
+    \draw (modulator.north) node[above] {};
+    
+
+    \draw (modulator.south west) -- (modulator.north east);
+    \draw (modulator.south east) -- (modulator.north west);
+        
+    \draw    
+        (1.5,0) node[fd inst amp,fill=cyan!30](INA){\footnotesize LNA}
+        (INA.+) to [short] (INA.+ -| modulator.east)
+        (INA.-) to [short] (INA.- -| modulator.east);
+
+    \draw (3,0) node[rectangle, draw, minimum width=0.5cm, minimum height=1.8cm] (demodulator) {};
+    \draw (demodulator.north) node[above] {};
+
+    \draw (demodulator.south west) -- (demodulator.north east);
+    \draw (demodulator.south east) -- (demodulator.north west);
+
+    \draw    
+        (INA.out -) to [short] (INA.+ -| demodulator.west)
+        (INA.out +) to [short] (INA.- -| demodulator.west);
+
+    % Connecting input signals
+    \draw[latex-] (demodulator.south) -- ++(0,-1) -- ++(-0.8,0) node[below] {};
+    \draw[latex-] (modulator.south) -- ++(0,-1) -- ++(0.5,0) node[right] {$f_{chop}$};
+
+    \foreach \ini [evaluate=\ini as \inieval using 0.2*\ini] in {1,...,3}
+    \draw (1.3+\inieval,-2) -- ++(0,0.3) -| (1.3+\inieval+0.1,-2) -- (1.3+\inieval+0.2,-2);
+    %\draw    
+    %    (INA.out -) to [short] (INA.+ -| demodulator.west)
+    %    (INA.out +) to [short] (INA.- -| demodulator.west);
+
+    % Connecting input signals
+    \draw[latex-] (INA.+ -| modulator.west) -- ++(-1,0) node[left,label={[align=center]Sensor\\Interface}] {};
+    \draw[latex-] (INA.- -| modulator.west) -- ++(-1,0) node[left] {};
+
+    \draw (4.5,0) node[op amp](PGA){PGA};
+    
+    \draw (INA.+ -| demodulator.east) -- (PGA.+) node[left] {};
+    \draw (INA.- -| demodulator.east) -- (PGA.-) node[left] {};
+
+    \draw (PGA.out) to [lowpass,l_=LPF] ++(2,0) node[msport,circuitikz/RF/scale=2.5](ADC){ADC};
+    
+\end{circuitikz}
+\end{document}
